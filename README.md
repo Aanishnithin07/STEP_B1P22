@@ -1,9 +1,7 @@
-# STEP B1P22
+# Project Title
 
-This is the updated README file. The content related to this project has been moved to the `week1` folder. Please refer to the files in that directory for further information.
+This project contains the following directories:
 
-## Week1 Files
+- `src`: Contains the source code and related files.
 
-- Problem* .java files
-- Step_B1P22.iml
-- .idea directory
+Make sure to check the `src` directory for implementations and resources.
