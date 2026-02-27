@@ -2,140 +2,188 @@ package Palindrome_app;
 
 import java.util.*;
 
+/**
+ * =====================================================
+ * MAIN CLASS - PalindromeCheckerApp
+ * =====================================================
+ *
+ * All palindrome validation techniques combined.
+ * Now accepts input from user.
+ *
+ * @author Aanish Nithin A
+ * @version 9.0
+ */
+
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
-        System.out.println("======================================");
-        System.out.println(" Welcome to Palindrome Checker App ");
-        System.out.println(" Version 1.0 ");
-        System.out.println("======================================");
-        System.out.println("Objective: Validate whether a given string is a palindrome under different conditions.");
 
-        while (true) {
-            System.out.println("\nChoose a Use Case to run:");
-            System.out.println("1. UC1 - Welcome Message");
-            System.out.println("2. UC2 - Hardcoded Palindrome");
-            System.out.println("3. UC3 - Palindrome using String Reverse");
-            System.out.println("4. UC4 - Palindrome using Character Array");
-            System.out.println("5. UC5 - Palindrome using Stack");
-            System.out.println("6. UC6 - Palindrome using Queue + Stack");
-            System.out.println("0. Exit");
-            System.out.print("Enter choice: ");
+        System.out.println("====================================");
+        System.out.println("     PALINDROME CHECKER     ");
+        System.out.println("====================================");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
 
-            switch (choice) {
-                case 1:
-                    uc1();
-                    break;
-                case 2:
-                    uc2();
-                    break;
-                case 3:
-                    uc3(scanner);
-                    break;
-                case 4:
-                    uc4(scanner);
-                    break;
-                case 5:
-                    uc5(scanner);
-                    break;
-                case 6:
-                    uc6(scanner);
-                    break;
-                case 0:
-                    System.out.println("Exiting Palindrome Checker App. Goodbye!");
-                    return;
-                default:
-                    System.out.println("Invalid choice. Try again.");
+        System.out.println("-------------------------------------");
+
+        System.out.println("UC2 - Half Loop            : " + checkHalfLoop(input));
+        System.out.println("UC3 - Reverse String       : " + checkReverse(input));
+        System.out.println("UC4 - Two Pointer          : " + checkTwoPointer(input));
+        System.out.println("UC5 - Stack                : " + checkStack(input));
+        System.out.println("UC6 - Queue + Stack        : " + checkQueueStack(input));
+        System.out.println("UC7 - Deque Optimized      : " + checkDeque(input));
+        System.out.println("UC8 - Linked List          : " + checkLinkedList(input));
+
+        scanner.close();
+    }
+
+    // UC2 - Half Loop
+    public static boolean checkHalfLoop(String input) {
+        for (int i = 0; i < input.length() / 2; i++) {
+            if (input.charAt(i) != input.charAt(input.length() - 1 - i)) {
+                return false;
             }
         }
+        return true;
     }
 
-    // UC1: Welcome Message
-    public static void uc1() {
-        System.out.println("\n[UC1] Application Entry & Welcome Message");
-        System.out.println("Palindrome Checker App - Version 1.0");
-    }
-
-    // UC2: Hardcoded Palindrome
-    public static void uc2() {
-        System.out.println("\n[UC2] Hardcoded Palindrome Check");
-        String word = "madam";
-        System.out.println(word + (isPalindrome(word) ? " is a palindrome." : " is not a palindrome."));
-    }
-
-    // UC3: Palindrome using String Reverse
-    public static void uc3(Scanner scanner) {
-        System.out.println("\n[UC3] Palindrome Check Using String Reverse");
-        System.out.print("Enter a word: ");
-        String word = scanner.nextLine();
-        String reversed = "";
-        for (int i = word.length() - 1; i >= 0; i--) {
-            reversed += word.charAt(i);
+    // UC3 - Reverse String
+    public static boolean checkReverse(String input) {
+        StringBuilder reversed = new StringBuilder();
+        for (int i = input.length() - 1; i >= 0; i--) {
+            reversed.append(input.charAt(i));
         }
-        System.out.println(word + (word.equals(reversed) ? " is a palindrome." : " is not a palindrome."));
+        return input.contentEquals(reversed);
     }
 
-    // UC4: Character Array Based Palindrome
-    public static void uc4(Scanner scanner) {
-        System.out.println("\n[UC4] Palindrome Check Using Character Array");
-        System.out.print("Enter a word: ");
-        String word = scanner.nextLine();
-        char[] chars = word.toCharArray();
-        int i = 0, j = chars.length - 1;
-        boolean isPalindrome = true;
-        while (i < j) {
-            if (chars[i] != chars[j]) {
-                isPalindrome = false;
-                break;
+    // UC4 - Two Pointer
+    public static boolean checkTwoPointer(String input) {
+        char[] chars = input.toCharArray();
+        int start = 0;
+        int end = chars.length - 1;
+
+        while (start < end) {
+            if (chars[start] != chars[end]) {
+                return false;
             }
-            i++; j--;
+            start++;
+            end--;
         }
-        System.out.println(word + (isPalindrome ? " is a palindrome." : " is not a palindrome."));
+        return true;
     }
 
-    // UC5: Stack-Based Palindrome
-    public static void uc5(Scanner scanner) {
-        System.out.println("\n[UC5] Palindrome Check Using Stack");
-        System.out.print("Enter a word: ");
-        String word = scanner.nextLine();
+    // UC5 - Stack
+    public static boolean checkStack(String input) {
         Stack<Character> stack = new Stack<>();
-        for (char c : word.toCharArray()) stack.push(c);
-        String reversed = "";
-        while (!stack.isEmpty()) reversed += stack.pop();
-        System.out.println(word + (word.equals(reversed) ? " is a palindrome." : " is not a palindrome."));
+        for (char c : input.toCharArray()) {
+            stack.push(c);
+        }
+
+        for (char c : input.toCharArray()) {
+            if (c != stack.pop()) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    // UC6: Queue + Stack Based Palindrome
-    public static void uc6(Scanner scanner) {
-        System.out.println("\n[UC6] Palindrome Check Using Queue + Stack");
-        System.out.print("Enter a word: ");
-        String word = scanner.nextLine();
+    // UC6 - Queue + Stack
+    public static boolean checkQueueStack(String input) {
         Queue<Character> queue = new LinkedList<>();
         Stack<Character> stack = new Stack<>();
-        for (char c : word.toCharArray()) {
+
+        for (char c : input.toCharArray()) {
             queue.add(c);
             stack.push(c);
         }
-        boolean isPalindrome = true;
+
         while (!queue.isEmpty()) {
-            if (!queue.remove().equals(stack.pop())) {
-                isPalindrome = false;
-                break;
+            if (queue.remove() != stack.pop()) {
+                return false;
             }
         }
-        System.out.println(word + (isPalindrome ? " is a palindrome." : " is not a palindrome."));
+        return true;
     }
 
+    // UC7 - Deque
+    public static boolean checkDeque(String input) {
+        Deque<Character> deque = new LinkedList<>();
 
-    public static boolean isPalindrome(String str) {
-        int i = 0, j = str.length() - 1;
-        while (i < j) {
-            if (str.charAt(i) != str.charAt(j)) return false;
-            i++; j--;
+        for (char c : input.toCharArray()) {
+            deque.addLast(c);
+        }
+
+        while (deque.size() > 1) {
+            if (deque.removeFirst() != deque.removeLast()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // =====================================================
+    // UC8 - Linked List Based Palindrome Checker
+    // =====================================================
+    // Inner Node class for singly linked list
+    static class Node {
+        char data;
+        Node next;
+
+        Node(char data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    public static boolean checkLinkedList(String input) {
+        if (input == null || input.length() == 0) return true;
+
+        // Step 1: Build the singly linked list from the string
+        Node head = null;
+        Node tail = null;
+        for (char c : input.toCharArray()) {
+            Node newNode = new Node(c);
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+        }
+
+        // Step 2: Find the middle using Fast & Slow pointer technique
+        Node slow = head;
+        Node fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;       // moves 1 step
+            fast = fast.next.next;  // moves 2 steps
+        }
+        // 'slow' is now at the start of the second half
+
+        // Step 3: In-place reversal of the second half
+        Node prev = null;
+        Node current = slow;
+        while (current != null) {
+            Node nextNode = current.next;
+            current.next = prev;
+            prev = current;
+            current = nextNode;
+        }
+        Node reversedHead = prev; // head of reversed second half
+
+        // Step 4: Compare first half and reversed second half
+        Node left = head;
+        Node right = reversedHead;
+        while (right != null) {
+            if (left.data != right.data) {
+                return false;
+            }
+            left = left.next;
+            right = right.next;
         }
         return true;
     }
