@@ -36,6 +36,7 @@ public class PalindromeCheckerApp {
         System.out.println("UC6 - Queue + Stack        : " + checkQueueStack(input));
         System.out.println("UC7 - Deque Optimized      : " + checkDeque(input));
         System.out.println("UC8 - Linked List          : " + checkLinkedList(input));
+        System.out.println("UC9 - Recursive            : " + checkRecursive(input, 0, input.length() - 1));
 
         scanner.close();
     }
@@ -122,6 +123,22 @@ public class PalindromeCheckerApp {
             }
         }
         return true;
+    }
+
+    // =====================================================
+    // UC9 - Recursive Palindrome Checker
+    // =====================================================
+    public static boolean checkRecursive(String input, int start, int end) {
+        // Base condition: if start >= end, all characters matched
+        if (start >= end) {
+            return true;
+        }
+        // If characters at start and end don't match, not a palindrome
+        if (input.charAt(start) != input.charAt(end)) {
+            return false;
+        }
+        // Recursive call: move start forward and end backward
+        return checkRecursive(input, start + 1, end - 1);
     }
 
     // =====================================================
