@@ -47,6 +47,12 @@ public class PalindromeCheckerApp {
         System.out.println("UC12 - Strategy (Stack)    : " + stackCtx.execute(input));
         System.out.println("UC12 - Strategy (Deque)    : " + dequeCtx.execute(input));
 
+        // UC13 - Performance Comparison
+        System.out.println("\n-------------------------------------");
+        System.out.println(" UC13 - PERFORMANCE COMPARISON ");
+        System.out.println("-------------------------------------");
+        runPerformanceComparison(input);
+
         scanner.close();
     }
 
@@ -132,6 +138,85 @@ public class PalindromeCheckerApp {
             }
         }
         return true;
+    }
+
+    // =====================================================
+    // UC13 - Performance Comparison
+    // =====================================================
+    public static void runPerformanceComparison(String input) {
+        long start, end, duration;
+
+        // UC2 - Half Loop
+        start = System.nanoTime();
+        checkHalfLoop(input);
+        end = System.nanoTime();
+        System.out.println("UC2  - Half Loop            : " + (end - start) + " ns");
+
+        // UC3 - Reverse String
+        start = System.nanoTime();
+        checkReverse(input);
+        end = System.nanoTime();
+        System.out.println("UC3  - Reverse String       : " + (end - start) + " ns");
+
+        // UC4 - Two Pointer
+        start = System.nanoTime();
+        checkTwoPointer(input);
+        end = System.nanoTime();
+        System.out.println("UC4  - Two Pointer          : " + (end - start) + " ns");
+
+        // UC5 - Stack
+        start = System.nanoTime();
+        checkStack(input);
+        end = System.nanoTime();
+        System.out.println("UC5  - Stack                : " + (end - start) + " ns");
+
+        // UC6 - Queue + Stack
+        start = System.nanoTime();
+        checkQueueStack(input);
+        end = System.nanoTime();
+        System.out.println("UC6  - Queue + Stack        : " + (end - start) + " ns");
+
+        // UC7 - Deque
+        start = System.nanoTime();
+        checkDeque(input);
+        end = System.nanoTime();
+        System.out.println("UC7  - Deque Optimized      : " + (end - start) + " ns");
+
+        // UC8 - Linked List
+        start = System.nanoTime();
+        checkLinkedList(input);
+        end = System.nanoTime();
+        System.out.println("UC8  - Linked List          : " + (end - start) + " ns");
+
+        // UC9 - Recursive
+        start = System.nanoTime();
+        checkRecursive(input, 0, input.length() - 1);
+        end = System.nanoTime();
+        System.out.println("UC9  - Recursive            : " + (end - start) + " ns");
+
+        // UC10 - Case & Space Ignore
+        start = System.nanoTime();
+        checkIgnoreCaseAndSpace(input);
+        end = System.nanoTime();
+        System.out.println("UC10 - Case & Space Ignore  : " + (end - start) + " ns");
+
+        // UC11 - OOP Service
+        start = System.nanoTime();
+        new PalindromeChecker(input).checkPalindrome();
+        end = System.nanoTime();
+        System.out.println("UC11 - OOP Service          : " + (end - start) + " ns");
+
+        // UC12 - Strategy (Stack)
+        start = System.nanoTime();
+        new PalindromeContext(new StackStrategy()).execute(input);
+        end = System.nanoTime();
+        System.out.println("UC12 - Strategy (Stack)     : " + (end - start) + " ns");
+
+        // UC12 - Strategy (Deque)
+        start = System.nanoTime();
+        new PalindromeContext(new DequeStrategy()).execute(input);
+        end = System.nanoTime();
+        System.out.println("UC12 - Strategy (Deque)     : " + (end - start) + " ns");
     }
 
     // =====================================================
