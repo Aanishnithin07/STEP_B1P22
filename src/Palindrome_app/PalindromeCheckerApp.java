@@ -38,6 +38,8 @@ public class PalindromeCheckerApp {
         System.out.println("UC8 - Linked List          : " + checkLinkedList(input));
         System.out.println("UC9 - Recursive            : " + checkRecursive(input, 0, input.length() - 1));
         System.out.println("UC10 - Case & Space Ignore : " + checkIgnoreCaseAndSpace(input));
+        PalindromeChecker checker = new PalindromeChecker(input);
+        System.out.println("UC11 - OOP Service         : " + checker.checkPalindrome());
 
         scanner.close();
     }
@@ -124,6 +126,41 @@ public class PalindromeCheckerApp {
             }
         }
         return true;
+    }
+
+    // =====================================================
+    // UC11 - Object-Oriented Palindrome Service
+    // =====================================================
+    /**
+     * Encapsulates palindrome logic following Single Responsibility Principle.
+     * Internally uses a Stack to verify palindrome.
+     */
+    static class PalindromeChecker {
+        private final String input; // Encapsulated field
+
+        // Constructor - accepts the string to check
+        public PalindromeChecker(String input) {
+            this.input = input;
+        }
+
+        // Public method - single responsibility: check palindrome
+        public boolean checkPalindrome() {
+            Stack<Character> stack = new Stack<>();
+            char[] chars = input.toCharArray();
+
+            // Push all characters onto the stack
+            for (char c : chars) {
+                stack.push(c);
+            }
+
+            // Pop from stack (reversed order) and compare with original
+            for (char c : chars) {
+                if (c != stack.pop()) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
     // =====================================================
