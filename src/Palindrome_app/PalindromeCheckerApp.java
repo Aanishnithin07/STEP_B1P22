@@ -37,6 +37,7 @@ public class PalindromeCheckerApp {
         System.out.println("UC7 - Deque Optimized      : " + checkDeque(input));
         System.out.println("UC8 - Linked List          : " + checkLinkedList(input));
         System.out.println("UC9 - Recursive            : " + checkRecursive(input, 0, input.length() - 1));
+        System.out.println("UC10 - Case & Space Ignore : " + checkIgnoreCaseAndSpace(input));
 
         scanner.close();
     }
@@ -121,6 +122,27 @@ public class PalindromeCheckerApp {
             if (deque.removeFirst() != deque.removeLast()) {
                 return false;
             }
+        }
+        return true;
+    }
+
+    // =====================================================
+    // UC10 - Case-Insensitive & Space-Ignored Palindrome Checker
+    // =====================================================
+    public static boolean checkIgnoreCaseAndSpace(String input) {
+        // Step 1: Normalize - remove all non-alphanumeric characters and convert to lowercase
+        String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+        // Step 2: Two pointer comparison on normalized string
+        int start = 0;
+        int end = normalized.length() - 1;
+
+        while (start < end) {
+            if (normalized.charAt(start) != normalized.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
         }
         return true;
     }
