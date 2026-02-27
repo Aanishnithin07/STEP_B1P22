@@ -41,6 +41,12 @@ public class PalindromeCheckerApp {
         PalindromeChecker checker = new PalindromeChecker(input);
         System.out.println("UC11 - OOP Service         : " + checker.checkPalindrome());
 
+        // UC12 - Strategy Pattern
+        PalindromeContext stackCtx = new PalindromeContext(new StackStrategy());
+        PalindromeContext dequeCtx = new PalindromeContext(new DequeStrategy());
+        System.out.println("UC12 - Strategy (Stack)    : " + stackCtx.execute(input));
+        System.out.println("UC12 - Strategy (Deque)    : " + dequeCtx.execute(input));
+
         scanner.close();
     }
 
@@ -126,6 +132,67 @@ public class PalindromeCheckerApp {
             }
         }
         return true;
+    }
+
+    // =====================================================
+    // UC12 - Strategy Pattern for Palindrome Algorithms
+    // =====================================================
+
+    // Step 1: Define the Strategy Interface
+    interface PalindromeStrategy {
+        boolean check(String input);
+    }
+
+    // Step 2a: Concrete Strategy using Stack
+    static class StackStrategy implements PalindromeStrategy {
+        @Override
+        public boolean check(String input) {
+            Stack<Character> stack = new Stack<>();
+            for (char c : input.toCharArray()) {
+                stack.push(c);
+            }
+            for (char c : input.toCharArray()) {
+                if (c != stack.pop()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    // Step 2b: Concrete Strategy using Deque
+    static class DequeStrategy implements PalindromeStrategy {
+        @Override
+        public boolean check(String input) {
+            Deque<Character> deque = new LinkedList<>();
+            for (char c : input.toCharArray()) {
+                deque.addLast(c);
+            }
+            while (deque.size() > 1) {
+                if (deque.removeFirst() != deque.removeLast()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    // Step 3: Context class - injects strategy at runtime (Dependency Injection)
+    static class PalindromeContext {
+        private PalindromeStrategy strategy; // Polymorphic reference
+
+        public PalindromeContext(PalindromeStrategy strategy) {
+            this.strategy = strategy;
+        }
+
+        // Allows switching strategy at runtime
+        public void setStrategy(PalindromeStrategy strategy) {
+            this.strategy = strategy;
+        }
+
+        public boolean execute(String input) {
+            return strategy.check(input);
+        }
     }
 
     // =====================================================
